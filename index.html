@@ -791,16 +791,16 @@
     const cx1 = w * (-0.05 + 0.10 * sin(t, 11000) + 0.05 * sin(t, 7300));
     const cy1 = h * ( 0.06 + 0.08 * sin(t,  9400) + 0.04 * sin(t, 6100));
     const r1  = Math.max(w, h) * (0.62 + 0.08 * sin(t, 8200) + 0.05 * sin(t, 5700));
-    // Top-left blink: slow ~10s pulse with a shorter 3.2s flutter on top
-    const a1  = 0.35 + 0.43 * sin(t, 10000) + 0.12 * sin(t, 3200);
+    // Top-left: floor at 0.45, peaks to ~0.85, ~8s cycle with a 3s ripple
+    const a1  = 0.45 + 0.25 * (0.5 + 0.5 * sin(t, 8000)) + 0.12 * (0.5 + 0.5 * sin(t, 3000));
     drawBlob(cx1, cy1, r1, a1);
 
     // Bottom-left blob — tighter, faster, offset phase
     const cx2 = w * ( 0.02 + 0.07 * cos(t,  6200) + 0.04 * sin(t, 4100));
     const cy2 = h * ( 0.92 + 0.06 * sin(t,  5300) + 0.03 * cos(t, 3800));
     const r2  = Math.max(w, h) * (0.40 + 0.06 * cos(t, 7100) + 0.04 * sin(t, 4600));
-    // Bottom-left blink: faster ~5s pulse with a 2.1s flutter — out of phase with top
-    const a2  = 0.15 + 0.38 * cos(t, 5000) + 0.14 * cos(t, 2100);
+    // Bottom-left: floor at 0.30, peaks to ~0.70, ~5s cycle with a 2s ripple
+    const a2  = 0.30 + 0.25 * (0.5 + 0.5 * cos(t, 5000)) + 0.12 * (0.5 + 0.5 * cos(t, 2000));
     drawBlob(cx2, cy2, r2, a2);
 
     requestAnimationFrame(draw);
