@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>學籽 — 週年特賣</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Design tokens ── */
+    :root {
+      --font: 'Noto Sans TC', sans-serif;
+      --font-serif: 'Noto Serif TC', serif;
+
+      --theme-component-navbar-background: #000a00;
+      --theme-label-base-content-strong: #ffffff;
+      --theme-label-base-content: #232323;
+      --theme-label-base-content-subtle: #76767a;
+      --theme-neutral-neutral: rgba(255,255,255,0.15);
+      --theme-background-base-100: #ffffff;
+      --theme-background-base-t100: rgba(0,0,0,0.8);
+      --theme-background-base-t200: rgba(230,230,230,0.8);
+      --theme-border-border: #323136;
+      --theme-accent-tertiary: #7546ff;
+      --theme-accent-tertiary-badge: #612dfb;
+      --theme-accent-primary-content: #f0f0f0;
+      --color-blackberry-300: #2c2680;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--theme-background-base-100);
+      color: var(--theme-label-base-content);
+      min-width: 390px;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      background: var(--theme-component-navbar-background);
+      width: 100%;
+      z-index: 10;
+    }
+
+    .navbar-left,
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      flex: 1 0 0;
+      min-width: 0;
+      height: 40px;
+      padding: 7px 0;
+      gap: 8px;
+    }
+
+    .navbar-right {
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .navbar-menu-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .navbar-menu-btn span {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 14px;
+      color: var(--theme-label-base-content-strong);
+      white-space: nowrap;
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .navbar-logo img { display: block; }
+    .navbar-logo .logo-icon  { width: 40px;  height: 20px; }
+    .navbar-logo .logo-text  { width: 44.314px; height: 20px; }
+
+    .persona-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-left: 12px;
+      border-radius: 16px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .persona-btn span {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 14px;
+      color: var(--theme-label-base-content-strong);
+      white-space: nowrap;
+    }
+    .persona-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 506px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--theme-neutral-neutral);
+    }
+    .hero-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-gradient {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      display: block;
+    }
+
+    .hero-inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+      padding: 10px 16px;
+    }
+
+    @keyframes border-spin {
+      to { --border-angle: 360deg; }
+    }
+
+    @property --border-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    .promo-card-shell {
+      position: relative;
+      border-radius: 9px;
+      padding: 1px;
+      width: 390px;
+      flex-shrink: 0;
+    }
+
+    .promo-card-shell::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 9px;
+      padding: 1px;
+      background: conic-gradient(
+        from var(--border-angle),
+        #323136 0%,
+        #7546ff 25%,
+        #323136 50%,
+        #9a70ff 75%,
+        #323136 100%
+      );
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: border-spin 6s linear infinite;
+      pointer-events: none;
+    }
+
+    .promo-card {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .promo-card-top {
+      background: var(--theme-background-base-t100);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .promo-label {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 14px;
+      color: var(--theme-accent-primary-content);
+    }
+    .promo-title {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1.1;
+      color: var(--theme-label-base-content-strong);
+      white-space: nowrap;
+    }
+    .promo-subtitle {
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 24px;
+      color: var(--theme-accent-tertiary);
+    }
+
+    .promo-card-bottom {
+      background: var(--theme-background-base-t100);
+      border-top: 1px solid var(--theme-border-border);
+      padding: 24px 16px;
+    }
+    .promo-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .promo-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .promo-meta-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 20px;
+      color: var(--theme-label-base-content-strong);
+    }
+    .promo-timer {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 12px;
+      color: #ffffff;
+      white-space: pre;
+    }
+
+    /* ── Badge ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-purple {
+      background: var(--theme-accent-tertiary);
+      color: var(--theme-accent-primary-content);
+    }
+    .badge-muted {
+      background: var(--theme-background-base-t200);
+      color: var(--theme-label-base-content);
+      border-radius: 3px;
+      padding: 4px 5px;
+      gap: 2px;
+    }
+
+    /* ── Course section ── */
+    .course-section {
+      background: var(--theme-background-base-100);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 0 48px;
+      width: 100%;
+    }
+
+    .course-carousel {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .category-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-width: 1086px;
+      width: 100%;
+      padding: 0 16px;
+    }
+    .category-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .category-title-row h2 {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 25px;
+      color: var(--theme-label-base-content);
+      white-space: nowrap;
+    }
+    .chevron-btn {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      overflow: hidden;
+      padding: 8px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .chevron-btn svg {
+      width: 14px;
+      height: 14px;
+      transform: rotate(180deg);
+    }
+    .category-subtitle {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 14px;
+      color: var(--theme-label-base-content-subtle);
+    }
+
+    /* ── Course row ── */
+    .course-row {
+      display: flex;
+      gap: 32px;
+      max-width: 1086px;
+      min-width: 390px;
+      width: 100%;
+      padding: 0 16px;
+      overflow-x: auto;
+      overflow-y: clip;
+    }
+    .course-row::-webkit-scrollbar { display: none; }
+
+    /* ── Course card ── */
+    .course-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 330px;
+      flex-shrink: 0;
+    }
+
+    .thumbnail {
+      position: relative;
+      width: 100%;
+      height: 185px;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #111;
+    }
+    .thumbnail img.thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .status-badge {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding-right: 8px;
+      background: var(--theme-background-base-t200);
+      border-radius: 10px;
+    }
+    .status-badge-inner {
+      background: var(--theme-accent-tertiary-badge);
+      color: var(--theme-accent-primary-content);
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 12px;
+      padding: 6px 8px;
+      border-radius: 10px;
+    }
+    .status-badge-count {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 12px;
+      color: var(--theme-label-base-content);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .status-badge-count svg {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+
+    .course-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-left: 4px;
+    }
+    .course-info .instructor {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 21px;
+      color: var(--theme-label-base-content);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .course-info .course-name {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 23px;
+      color: var(--theme-label-base-content);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .course-info .course-desc {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 21px;
+      color: var(--theme-label-base-content-subtle);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .course-pricing {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .price-group {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      white-space: nowrap;
+    }
+    .price-current {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 16px;
+      color: var(--theme-label-base-content);
+    }
+    .price-original {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 14px;
+      color: var(--theme-label-base-content-subtle);
+      text-decoration: line-through;
+    }
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--theme-background-base-t200);
+      border-radius: 3px;
+      padding: 4px 5px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 12px;
+      color: var(--theme-label-base-content-subtle);
+      white-space: nowrap;
+    }
+    .rating-badge svg {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-left">
+    <div class="navbar-menu-btn"><span>探索課程</span></div>
+  </div>
+  <div class="navbar-logo">
+    <img class="logo-icon" src="assets/logo-icon.svg" alt="學籽 logo icon" />
+    <img class="logo-text" src="assets/logo-text.svg" alt="學籽" />
+  </div>
+  <div class="navbar-right">
+    <div class="persona-btn">
+      <span>古念華</span>
+      <img class="persona-avatar" src="assets/avatar.png" alt="古念華 avatar" />
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <img class="hero-bg-img" src="assets/hero-bg.png" alt="" aria-hidden="true" />
+  <canvas class="hero-gradient" id="heroCanvas"></canvas>
+  <div class="hero-inner">
+    <div class="promo-card-shell">
+      <div class="promo-card">
+        <div class="promo-card-top">
+          <p class="promo-label">三週年慶</p>
+          <div class="promo-title">
+            <p>週年特賣</p>
+            <p>全站7折起</p>
+          </div>
+          <p class="promo-subtitle">找到一段真實改變你的學習</p>
+        </div>
+        <div class="promo-card-bottom">
+          <div class="promo-meta">
+            <div class="promo-meta-row">
+              <span class="badge badge-purple">限時早鳥全站折扣</span>
+            </div>
+            <p class="promo-timer" id="countdown"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Course Section -->
+<section class="course-section">
+  <div class="course-carousel">
+
+    <!-- Category header -->
+    <div class="category-title">
+      <div class="category-title-row">
+        <h2>首席優惠</h2>
+      </div>
+      <p class="category-subtitle">啟發對於生活更多的靈感與想像</p>
+    </div>
+
+    <!-- Row 1 -->
+    <div class="course-row">
+
+      <!-- Card 1 -->
+      <article class="course-card">
+        <div class="thumbnail">
+          <img class="thumb-img" src="assets/thumb-film.png" alt="影迷學" />
+          <div class="status-badge">
+            <span class="status-badge-inner">優惠中·45折</span>
+            <span class="status-badge-count">
+              <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1a3 3 0 1 1 0 6A3 3 0 0 1 6 1ZM1.5 11c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5" stroke="#232323" stroke-width="1" stroke-linecap="round"/></svg>
+              22180 位同學
+            </span>
+          </div>
+        </div>
+        <div class="course-info">
+          <p class="instructor">聞天祥</p>
+          <p class="course-name">影迷學</p>
+          <p class="course-desc">穿透光影 從類型 角色 敘事 深讀電影</p>
+          <div class="course-pricing">
+            <div class="price-group">
+              <span class="price-current">NT$12,000</span>
+              <span class="price-original">NT$8,000</span>
+            </div>
+            <span class="rating-badge">
+              <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M6 1l1.35 2.73 3.02.44-2.18 2.13.51 3.01L6 7.77l-2.7 1.54.51-3.01L1.63 4.17l3.02-.44z" fill="#76767a"/></svg>
+              4.9 (19)
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="course-card">
+        <div class="thumbnail">
+          <img class="thumb-img" src="assets/thumb-production.png" alt="製片與管理" />
+          <div class="status-badge">
+            <span class="status-badge-inner">優惠中·45折</span>
+            <span class="status-badge-count">
+              <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1a3 3 0 1 1 0 6A3 3 0 0 1 6 1ZM1.5 11c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5" stroke="#232323" stroke-width="1" stroke-linecap="round"/></svg>
+              22180 位同學
+            </span>
+          </div>
+        </div>
+        <div class="course-info">
+          <p class="instructor">葉如芬</p>
+          <p class="course-name">製片與管理</p>
+          <p class="course-desc">掌握專案產製 行銷 孵化創意</p>
+          <div class="course-pricing">
+            <div class="price-group">
+              <span class="price-current">NT$12,000</span>
+              <span class="price-original">NT$12,000</span>
+            </div>
+            <span class="rating-badge">
+              <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M6 1l1.35 2.73 3.02.44-2.18 2.13.51 3.01L6 7.77l-2.7 1.54.51-3.01L1.63 4.17l3.02-.44z" fill="#76767a"/></svg>
+              4.9 (19)
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="course-card">
+        <div class="thumbnail">
+          <img class="thumb-img" src="assets/thumb-sound.png" alt="聲音設計" />
+          <div class="status-badge">
+            <span class="status-badge-inner">優惠中·45折</span>
+            <span class="status-badge-count">
+              <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1a3 3 0 1 1 0 6A3 3 0 0 1 6 1ZM1.5 11c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5" stroke="#232323" stroke-width="1" stroke-linecap="round"/></svg>
+              22180 位同學
+            </span>
+          </div>
+        </div>
+        <div class="course-info">
+          <p class="instructor">杜篤之</p>
+          <p class="course-name">聲音設計</p>
+          <p class="course-desc">聽電影 創造聲音的多種樣貌</p>
+          <div class="course-pricing">
+            <div class="price-group">
+              <span class="price-current">NT$12,000</span>
+              <span class="price-original">NT$12,000</span>
+            </div>
+            <span class="rating-badge">
+              <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M6 1l1.35 2.73 3.02.44-2.18 2.13.51 3.01L6 7.77l-2.7 1.54.51-3.01L1.63 4.17l3.02-.44z" fill="#76767a"/></svg>
+              4.9 (19)
+            </span>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /row 1 -->
+
+    <!-- Row 2 -->
+    <div class="course-row">
+
+      <!-- Card 4 -->
+      <article class="course-card">
+        <div class="thumbnail">
+          <img class="thumb-img" src="assets/thumb-film.png" alt="影迷學" />
+          <div class="status-badge">
+            <span class="status-badge-inner">優惠中·45折</span>
+            <span class="status-badge-count">
+              <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1a3 3 0 1 1 0 6A3 3 0 0 1 6 1ZM1.5 11c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5" stroke="#232323" stroke-width="1" stroke-linecap="round"/></svg>
+              22180 位同學
+            </span>
+          </div>
+        </div>
+        <div class="course-info">
+          <p class="instructor">聞天祥</p>
+          <p class="course-name">影迷學</p>
+          <p class="course-desc">穿透光影 從類型 角色 敘事 深讀電影</p>
+          <div class="course-pricing">
+            <div class="price-group">
+              <span class="price-current">NT$12,000</span>
+              <span class="price-original">NT$8,000</span>
+            </div>
+            <span class="rating-badge">
+              <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M6 1l1.35 2.73 3.02.44-2.18 2.13.51 3.01L6 7.77l-2.7 1.54.51-3.01L1.63 4.17l3.02-.44z" fill="#76767a"/></svg>
+              4.9 (19)
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="course-card">
+        <div class="thumbnail">
+          <img class="thumb-img" src="assets/thumb-production.png" alt="製片與管理" />
+          <div class="status-badge">
+            <span class="status-badge-inner">優惠中·45折</span>
+            <span class="status-badge-count">
+              <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1a3 3 0 1 1 0 6A3 3 0 0 1 6 1ZM1.5 11c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5" stroke="#232323" stroke-width="1" stroke-linecap="round"/></svg>
+              22180 位同學
+            </span>
+          </div>
+        </div>
+        <div class="course-info">
+          <p class="instructor">葉如芬</p>
+          <p class="course-name">製片與管理</p>
+          <p class="course-desc">掌握專案產製 行銷 孵化創意</p>
+          <div class="course-pricing">
+            <div class="price-group">
+              <span class="price-current">NT$12,000</span>
+              <span class="price-original">NT$12,000</span>
+            </div>
+            <span class="rating-badge">
+              <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M6 1l1.35 2.73 3.02.44-2.18 2.13.51 3.01L6 7.77l-2.7 1.54.51-3.01L1.63 4.17l3.02-.44z" fill="#76767a"/></svg>
+              4.9 (19)
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="course-card">
+        <div class="thumbnail">
+          <img class="thumb-img" src="assets/thumb-sound.png" alt="聲音設計" />
+          <div class="status-badge">
+            <span class="status-badge-inner">優惠中·45折</span>
+            <span class="status-badge-count">
+              <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 1a3 3 0 1 1 0 6A3 3 0 0 1 6 1ZM1.5 11c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5" stroke="#232323" stroke-width="1" stroke-linecap="round"/></svg>
+              22180 位同學
+            </span>
+          </div>
+        </div>
+        <div class="course-info">
+          <p class="instructor">杜篤之</p>
+          <p class="course-name">聲音設計</p>
+          <p class="course-desc">聽電影 創造聲音的多種樣貌</p>
+          <div class="course-pricing">
+            <div class="price-group">
+              <span class="price-current">NT$12,000</span>
+              <span class="price-original">NT$12,000</span>
+            </div>
+            <span class="rating-badge">
+              <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M6 1l1.35 2.73 3.02.44-2.18 2.13.51 3.01L6 7.77l-2.7 1.54.51-3.01L1.63 4.17l3.02-.44z" fill="#76767a"/></svg>
+              4.9 (19)
+            </span>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /row 2 -->
+
+  </div>
+</section>
+
+<script>
+(function () {
+  // Countdown — target: 2d 12h 31m 31s from page load
+  const end = Date.now() + (2 * 86400 + 12 * 3600 + 31 * 60 + 31) * 1000;
+  const el = document.getElementById('countdown');
+  function tick() {
+    const diff = Math.max(0, end - Date.now());
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    el.textContent = `倒數  ${d} 天 ${h} 小時 ${String(m).padStart(2,'0')} 分鐘 ${String(s).padStart(2,'0')} 秒`;
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+(function () {
+  const canvas = document.getElementById('heroCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  new ResizeObserver(resize).observe(canvas);
+
+  function sin(t, period) { return Math.sin((t / period) * Math.PI * 2); }
+  function cos(t, period) { return Math.cos((t / period) * Math.PI * 2); }
+
+  function drawBlob(cx, cy, r, alpha) {
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    grad.addColorStop(0,    `rgba(117,70,255,${alpha})`);
+    grad.addColorStop(0.45, `rgba(117,70,255,${alpha * 0.35})`);
+    grad.addColorStop(1,    `rgba(117,70,255,0)`);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  }
+
+  function draw(t) {
+    const w = canvas.width;
+    const h = canvas.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Top-left blob — slow, broad drift
+    const cx1 = w * (-0.05 + 0.10 * sin(t, 11000) + 0.05 * sin(t, 7300));
+    const cy1 = h * ( 0.06 + 0.08 * sin(t,  9400) + 0.04 * sin(t, 6100));
+    const r1  = Math.max(w, h) * (0.62 + 0.08 * sin(t, 8200) + 0.05 * sin(t, 5700));
+    const a1  = 0.78 + 0.10 * sin(t, 10600) + 0.04 * sin(t, 4900);
+    drawBlob(cx1, cy1, r1, a1);
+
+    // Bottom-left blob — tighter, faster, offset phase
+    const cx2 = w * ( 0.02 + 0.07 * cos(t,  6200) + 0.04 * sin(t, 4100));
+    const cy2 = h * ( 0.92 + 0.06 * sin(t,  5300) + 0.03 * cos(t, 3800));
+    const r2  = Math.max(w, h) * (0.40 + 0.06 * cos(t, 7100) + 0.04 * sin(t, 4600));
+    const a2  = 0.55 + 0.12 * cos(t,  6800) + 0.05 * sin(t, 3500);
+    drawBlob(cx2, cy2, r2, a2);
+
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
